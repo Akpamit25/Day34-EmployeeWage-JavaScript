@@ -32,7 +32,7 @@ let totalWage = 0;
 let empDailyWageMap = new Map();
 let empDailyHrMap = new Map();
 
-while(days<=NO_OF_WRK_DAYS && empHRS<=MAX_WRK_HRS)
+while(days<=NO_OF_WRK_DAYS && totalEmpHrs<=MAX_WRK_HRS)
 {
 empCheck = Math.floor(Math.random() * 10) % 3;
 empHRS = getWorkHRs(empCheck);
@@ -132,7 +132,6 @@ let fullWorkDays = new Array();
 let partWorkDays = new Array();
 let noWorkDays  = new Array();
 
-// for([key,value] of empDailyHrMap)
 empDailyHrMap.forEach((value,key)=>{
     if(value==0)
     noWorkDays.push(key);
@@ -145,3 +144,48 @@ empDailyHrMap.forEach((value,key)=>{
 console.log("Full Work Days are "+fullWorkDays);
 console.log("Part Work Days are "+partWorkDays);
 console.log("No Work Days are "+noWorkDays);
+
+//10
+let empDailyWageArrayObject = new Array();
+days=1;
+totalEmpHrs=0;
+while(days<=NO_OF_WRK_DAYS && totalEmpHrs<=MAX_WRK_HRS)
+{
+empCheck = Math.floor(Math.random() * 10) % 3;
+empHRS = getWorkHRs(empCheck);
+totalEmpHrs += empHRS;
+empDailyWageArrayObject.push(
+    {
+    day:days,
+    dailyHours:empHRS,
+    dailyWage:calculateDailyWage(empHRS),
+    toString()
+    {
+        return "\nDay"+this.day+" => hours worked = "+this.dailyHours+" wage earned = "+this.dailyWage
+    },
+    });
+days++;
+}
+
+console.log("Array with all data in form of object is "+empDailyWageArrayObject);
+
+//10a
+let Totalwage = empDailyWageArrayObject.filter(e=>e.dailyHours>0).reduce((totalWage,e)=>totalWage+=e.dailyWage,0);
+console.log("Total wage using arrow functions : "+Totalwage);
+
+let Totalhrs = empDailyWageArrayObject.filter(e=>e.dailyHours>0).reduce((totalHrs,e)=>totalHrs+=e.dailyHours,0);
+console.log("Total hours using arrow functions : "+Totalhrs);
+
+//10b
+let str = " ";
+empDailyWageArrayObject.filter(e=>e.dailyHours==8).forEach(e=>str = str+e.day+" ,");
+console.log("Full Working days : "+str);
+
+//10c
+let partWorkingDays =empDailyWageArrayObject.filter(e=>e.dailyHours==4).map(e=>e.toString());
+console.log("Part Working days : "+partWorkingDays);
+
+//10d
+
+let noWorkingDays =empDailyWageArrayObject.filter(e=>e.dailyHours==0).map(e=>e.day);
+console.log("Part Working days : "+noWorkingDays);
